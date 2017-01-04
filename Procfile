@@ -1,1 +1,1 @@
-myworker: check_birthdays
+myworker: python lethe/lethe.py

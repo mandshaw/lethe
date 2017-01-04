@@ -41,3 +41,6 @@ class BirthdayReminder(object):
 def run():
     birthdays = BirthdayReminder()
     birthdays.check_birthdays()
+
+if __name__ == '__main__':
+    run()
