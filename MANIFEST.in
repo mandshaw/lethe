@@ -3,7 +3,9 @@ include CONTRIBUTING.rst
 include HISTORY.rst
 include LICENSE
 include README.rst
+include README.rst
 include .travis.yml
+include lethe/birthdays.csv
 
 recursive-include tests *
 recursive-exclude * __pycache__

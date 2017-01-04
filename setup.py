@@ -28,6 +28,11 @@ setup(
     packages=[
         'lethe',
     ],
+    entry_points={
+        'console_scripts': [
+            'check_birthdays = lethe.lethe:run'
+        ]
+    },
     package_dir={'lethe':
                  'lethe'},
     include_package_data=True,
