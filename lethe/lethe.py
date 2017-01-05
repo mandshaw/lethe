@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import sys
 from datetime import datetime, timedelta
 from rollardex import RollarDex
 from email_utils import send_basic_email
@@ -6,7 +7,7 @@ import logging
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
-ch = logging.StreamHandler()
+ch = logging.StreamHandler(sys.stdout)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 ch.setFormatter(formatter)
 LOG.addHandler(ch)

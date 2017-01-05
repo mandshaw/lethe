@@ -1,6 +1,16 @@
 import os
+import sys
 import smtplib
 from email.mime.text import MIMEText
+import logging
+
+
+LOG = logging.getLogger(__name__)
+LOG.setLevel(logging.INFO)
+ch = logging.StreamHandler(sys.stdout)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+LOG.addHandler(ch)
 
 def send_basic_email(recipients, birthday_boy_or_girl):
     # Create a text/plain message
@@ -18,4 +28,5 @@ def send_basic_email(recipients, birthday_boy_or_girl):
     s = smtplib.SMTP(os.environ.get('SMTP_HOST'), port=os.environ.get('SMTP_PORT'))
     s.login(user=os.environ.get('SMTP_USER'), password=os.environ.get('SMTP_PASSWORD'))
     s.sendmail("birthdayreminder@birthdayboy.com", [person.email for person in recipients], msg.as_string())
+    LOG.info("Sending email to {people} for {bday}'s birtdhay".format(people=[person.name for person in recipients],bday=birthday_boy_or_girl.name))
     s.quit()
