@@ -20,3 +20,5 @@ SMTP_PORT=your.smptp.port.here
 SMTP_USER=your.smtp.user.here
 SMTP_PASSWORD=your.smtp.password.here
 ```
+
+lethe will send an email to the people in the group (but not the person whose birthday is coming up) 4 weeks and 2 weeks before the birthday. The emails will be from `birthdayreminder@birthdayboy.com`
