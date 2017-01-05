@@ -27,9 +27,13 @@ class BirthdayReminder(object):
         LOG.info('Checking for upcoming birthdays')
         today = datetime.today().date()
         for person in self.rollardex.flip():
-            target_date = today + timedelta(days=28)
-            if target_date.day == person.dob.day and target_date.month == person.dob.month:
-                LOG.info('Birthday Coming up for {name}'.format(name=person.name))
+            four_weeks_out = today + timedelta(days=28)
+            two_weeks_out = today + timedelta(days=14)
+            if four_weeks_out.day == person.dob.day and four_weeks_out.month == person.dob.month:
+                LOG.info('Birthday Coming up in 4 weeks for {name}'.format(name=person.name))
+                return self.send_notification(person)
+            elif two_weeks_out.day == person.dob.day and two_weeks_out.month == person.dob.month:
+                LOG.info('Birthday Coming up in 2 weeks for {name}'.format(name=person.name))
                 return self.send_notification(person)
         LOG.info('No Birthdays Coming up')
 

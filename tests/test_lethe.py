@@ -36,7 +36,15 @@ class TestRollarDex(unittest.TestCase):
 
     @freeze_time('2017-07-19')
     @patch('lethe.lethe.BirthdayReminder.send_notification')
-    def test_birthday_check_birthday_found(self, notification_mock):
+    def test_birthday_check_birthday_found_four_weeks(self, notification_mock):
+        birthdays = BirthdayReminder(rollardex_source=os.path.join(fixtures_dir, 'birthdays.csv'))
+        birthdays.check_birthdays()
+        self.assertTrue(notification_mock.called)
+        self.assertEquals(notification_mock.call_args[0][0].name, 'Bob')
+
+    @freeze_time('2017-08-02')
+    @patch('lethe.lethe.BirthdayReminder.send_notification')
+    def test_birthday_check_birthday_found_2_weeks(self, notification_mock):
         birthdays = BirthdayReminder(rollardex_source=os.path.join(fixtures_dir, 'birthdays.csv'))
         birthdays.check_birthdays()
         self.assertTrue(notification_mock.called)
