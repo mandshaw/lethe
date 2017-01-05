@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import sys
 from datetime import datetime, timedelta
-from .rollardex import RollarDex
-from .email_utils import send_basic_email
+from lethe.rollardex import RollarDex
+from lethe.email_utils import send_basic_email
 import logging
 
 LOG = logging.getLogger(__name__)
