@@ -12,9 +12,10 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 ch.setFormatter(formatter)
 LOG.addHandler(ch)
 
-def send_basic_email(recipients, birthday_boy_or_girl):
+def send_basic_email(recipients, birthday_boy_or_girl, weeks_away):
     # Create a text/plain message
-    msg = MIMEText( "{name}'s birthday is 4 weeks away on the {dob}".format(
+    msg = MIMEText( "{name}'s birthday is {num_weeks} weeks away on the {dob}".format(
+        num_weeks=weeks_away,
         name=birthday_boy_or_girl.name,
         dob=birthday_boy_or_girl.dob.strftime("%d/%m/%Y")))
 

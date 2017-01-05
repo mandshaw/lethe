@@ -31,17 +31,17 @@ class BirthdayReminder(object):
             two_weeks_out = today + timedelta(days=14)
             if four_weeks_out.day == person.dob.day and four_weeks_out.month == person.dob.month:
                 LOG.info('Birthday Coming up in 4 weeks for {name}'.format(name=person.name))
-                return self.send_notification(person)
+                return self.send_notification(person, 4)
             elif two_weeks_out.day == person.dob.day and two_weeks_out.month == person.dob.month:
                 LOG.info('Birthday Coming up in 2 weeks for {name}'.format(name=person.name))
-                return self.send_notification(person)
+                return self.send_notification(person, 2)
         LOG.info('No Birthdays Coming up')
 
 
-    def send_notification(self, birthday_boy_or_girl):
+    def send_notification(self, birthday_boy_or_girl, weeks_away):
         people_to_notify = [person for person in self.rollardex.get_all_except(birthday_boy_or_girl.name)]
         # send_email(people_to_notify, birthday_boy_or_girl)
-        send_basic_email(people_to_notify, birthday_boy_or_girl)
+        send_basic_email(people_to_notify, birthday_boy_or_girl, weeks_away)
 
 
 def run():

@@ -53,7 +53,7 @@ class TestRollarDex(unittest.TestCase):
     @patch('lethe.reminder.send_basic_email')
     def test_send_notification(self, send_email_mock):
         birthdays = BirthdayReminder(rollardex_source=os.path.join(fixtures_dir, 'birthdays.csv'))
-        birthdays.send_notification(Person('Bob', 'test@test.com', '01/01/1999'))
+        birthdays.send_notification(Person('Bob', 'test@test.com', '01/01/1999'), 2)
         self.assertEqual(len(send_email_mock.call_args[0][0]), 1)
         self.assertEqual(send_email_mock.call_args[0][0][0].name, 'Jane')
         self.assertEqual(send_email_mock.call_args[0][1].name, 'Bob')
