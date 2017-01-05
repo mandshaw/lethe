@@ -22,3 +22,21 @@ SMTP_PASSWORD=your.smtp.password.here
 ```
 
 lethe will send an email to the people in the group (but not the person whose birthday is coming up) 4 weeks and 2 weeks before the birthday. The emails will be from `birthdayreminder@birthdayboy.com`
+
+## Deploying on Heroku
+
+I deployed this on Heroku using the SendGrid and Heroku Scheduler add-ons. The Procfile I used is included in the repo and to scedule the process you can just schdeule `myworker`
+
+To keep my csv private I have a local only branch that has
+```
+lethe/
+---__init__.py
+---birthdays.csv
+---email_utils.py
+---reminder.py
+---rollardex.py
+```
+
+I never push this branch and rebase it off master to keep it up to date
+
+Enjoy!
