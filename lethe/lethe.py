@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
 from rollardex import RollarDex
-from email import send_email
+from email_utils import send_basic_email
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -35,7 +35,8 @@ class BirthdayReminder(object):
 
     def send_notification(self, birthday_boy_or_girl):
         people_to_notify = [person for person in self.rollardex.get_all_except(birthday_boy_or_girl.name)]
-        send_email(people_to_notify, birthday_boy_or_girl)
+        # send_email(people_to_notify, birthday_boy_or_girl)
+        send_basic_email(people_to_notify, birthday_boy_or_girl)
 
 
 def run():
