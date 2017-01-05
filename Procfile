@@ -1,1 +1,1 @@
-myworker: python lethe/lethe.py
+myworker: python -m lethe/lethe
