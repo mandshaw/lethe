@@ -1,1 +1,1 @@
-myworker: python lethe/lethe.py
+myworker: python lethe/reminder.py
