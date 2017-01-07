@@ -14,7 +14,7 @@ import unittest
 from datetime import datetime
 import os
 from mock import patch, MagicMock, call
-from lethe.email_utils import send_basic_email
+from lethe.email_utils import send_basic_email, calculate_birthday
 
 fixtures_dir = os.path.join(os.path.dirname(__file__), 'fixtures')
 
@@ -37,7 +37,7 @@ class TestEmailUtils(unittest.TestCase):
         send_basic_email(person1, person2, 4)
         self.assertEqual(
             smtp_mocked_instance.sendmail.assert_has_calls([
-                call('birthdayreminder@birthdayboy.com', [], 'Content-Type: text/plain; charset="us-ascii"\nMIME-Version: 1.0\nContent-Transfer-Encoding: 7bit\nSubject: Birthday Reminder for Bob\nFrom: birthdayreminder@birthdayboy.com\n\nBob\'s birthday is 4 weeks away on the 05/02/1993')
+                call('birthdayreminder@birthdayboy.com', [], 'Content-Type: text/plain; charset="us-ascii"\nMIME-Version: 1.0\nContent-Transfer-Encoding: 7bit\nSubject: Birthday Reminder for Bob\nFrom: birthdayreminder@birthdayboy.com\n\nBob\'s 24th birthday is 4 weeks away on the 05/02/1993')
             ]),
             None
         )
@@ -54,7 +54,19 @@ class TestEmailUtils(unittest.TestCase):
         self.assertEqual(
             smtp_mocked_instance.sendmail.assert_has_calls([
                 call('birthdayreminder@birthdayboy.com', [],
-                     'Content-Type: text/plain; charset="us-ascii"\nMIME-Version: 1.0\nContent-Transfer-Encoding: 7bit\nSubject: Birthday Reminder for Bob\nFrom: birthdayreminder@birthdayboy.com\n\nBob\'s birthday is 2 weeks away on the 05/02/1993')
+                     'Content-Type: text/plain; charset="us-ascii"\nMIME-Version: 1.0\nContent-Transfer-Encoding: 7bit\nSubject: Birthday Reminder for Bob\nFrom: birthdayreminder@birthdayboy.com\n\nBob\'s 24th birthday is 2 weeks away on the 05/02/1993')
             ]),
             None
         )
+
+    def test_calculate_birthday(self):
+        expected = {
+            '21st' : MagicMock(dob=datetime.strptime('05/07/1996', '%d/%m/%Y')),
+            '22nd' : MagicMock(dob=datetime.strptime('05/07/1995', '%d/%m/%Y')),
+            '23rd' : MagicMock(dob=datetime.strptime('05/07/1994', '%d/%m/%Y')),
+            '24th' : MagicMock(dob=datetime.strptime('05/07/1993', '%d/%m/%Y')),
+            '30th' : MagicMock(dob=datetime.strptime('05/07/1987', '%d/%m/%Y')),
+        }
+        for expected_result, mock in expected.iteritems():
+            birthday = calculate_birthday(mock)
+            self.assertEqual(birthday, expected_result)
