@@ -67,6 +67,6 @@ class TestEmailUtils(unittest.TestCase):
             '24th' : MagicMock(dob=datetime.strptime('05/07/1993', '%d/%m/%Y')),
             '30th' : MagicMock(dob=datetime.strptime('05/07/1987', '%d/%m/%Y')),
         }
-        for expected_result, mock in expected.iteritems():
+        for expected_result, mock in expected.items():
             birthday = calculate_birthday(mock)
             self.assertEqual(birthday, expected_result)
