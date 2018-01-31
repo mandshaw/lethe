@@ -10,6 +10,7 @@ Tests for `lethe` module.
 
 
 import sys
+import shutil
 import unittest
 from datetime import datetime
 import os
@@ -26,7 +27,7 @@ class TestRollarDex(unittest.TestCase):
         pass
 
     def test_create_person(self):
-        person = Person('Eva', 'eva@noneofyourbusiness.com', '05/07/1993')
+        person = Person('Eva', 'eva@noneofyourbusiness.com', '05/07/1993', '', '')
         self.assertEqual(person.name, 'Eva')
         self.assertEqual(person.email, 'eva@noneofyourbusiness.com')
         self.assertEqual(person.dob, datetime.strptime('05/07/1993','%d/%m/%Y').date())
@@ -49,3 +50,14 @@ class TestRollarDex(unittest.TestCase):
         self.assertEqual(len(people), 1)
         self.assertTrue(isinstance(people[0], Person))
         self.assertTrue(people[0].name, 'Bob')
+
+    def test_rollar_dex_udpate(self):
+        try:
+            shutil.copyfile(os.path.join(fixtures_dir, 'birthdays.csv'), os.path.join(fixtures_dir, 'birthdays1.csv'))
+            rollardex = RollarDex(rollardex_source=os.path.join(fixtures_dir, 'birthdays1.csv'))
+            rollardex.update(rollardex.find('Jane'), 'Foo', 1)
+            rollardex = RollarDex(rollardex_source=os.path.join(fixtures_dir, 'birthdays1.csv'))
+            self.assertEqual(rollardex.find('Jane').organiser, 'Foo')
+            self.assertEqual(rollardex.find('Jane').checksum, '1')
+        finally:
+            os.remove(os.path.join(fixtures_dir, 'birthdays1.csv'))

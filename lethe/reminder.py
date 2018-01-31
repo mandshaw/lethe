@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+import random
 from datetime import datetime, timedelta
 from lethe.rollardex import RollarDex
 from lethe.email_utils import send_basic_email
@@ -23,6 +24,7 @@ class BirthdayReminder(object):
         else:
             self.rollardex = RollarDex(rollardex_source=rollardex_source)
 
+
     def check_birthdays(self):
         LOG.info('Checking for upcoming birthdays')
         today = datetime.today().date()
@@ -31,11 +33,23 @@ class BirthdayReminder(object):
             two_weeks_out = today + timedelta(days=14)
             if four_weeks_out.day == person.dob.day and four_weeks_out.month == person.dob.month:
                 LOG.info('Birthday Coming up in 4 weeks for {name}'.format(name=person.name))
+                self.figure_out_person_responsible(person)
                 return self.send_notification(person, 4)
             elif two_weeks_out.day == person.dob.day and two_weeks_out.month == person.dob.month:
                 LOG.info('Birthday Coming up in 2 weeks for {name}'.format(name=person.name))
                 return self.send_notification(person, 2)
         LOG.info('No Birthdays Coming up')
+
+    def figure_out_person_responsible(self, birthday_boy):
+        current_iteration = max([person.checksum for person in self.rollardex.flip()])
+        bought_already = [person.organiser for person in self.rollardex.flip() if person.checksum == current_iteration]
+        left_to_buy = [
+            person.name for person in self.rollardex.flip()
+            if person.name != birthday_boy.name and person not in bought_already
+        ]
+        organiser = random.choice(left_to_buy)
+        self.rollardex.update(birthday_boy, organiser, current_iteration)
+
 
 
     def send_notification(self, birthday_boy_or_girl, weeks_away):

@@ -15,11 +15,12 @@ LOG.addHandler(ch)
 
 def send_basic_email(recipients, birthday_boy_or_girl, weeks_away):
     # Create a text/plain message
-    msg = MIMEText( "{name}'s {birthday} birthday is {num_weeks} weeks away on the {dob}".format(
+    msg = MIMEText( "{name}'s {birthday} birthday is {num_weeks} weeks away on the {dob}. {organiser} is organising their present.".format(
         num_weeks=weeks_away,
         birthday=calculate_birthday(birthday_boy_or_girl),
         name=birthday_boy_or_girl.name,
-        dob=birthday_boy_or_girl.dob.strftime("%d/%m/%Y")))
+        dob=birthday_boy_or_girl.dob.strftime("%d/%m/%Y"),
+        organiser=birthday_boy_or_girl.organiser))
 
     # me == the sender's email address
     # you == the recipient's email address
